@@ -1,0 +1,10 @@
+{
+  "name": "hexabot-helper-gemini",
+  "version": "2.0.0",
+  "description": "The Gemini Helper Extension for Hexabot Chatbot / Agent Builder to enable the LLM RAG Capability",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  },
+  "author": "Hexastack",
+  "license": "AGPL-3.0-only"
+}
