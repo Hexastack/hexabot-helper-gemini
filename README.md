@@ -26,7 +26,7 @@ To use the Gemini Helper Extension within Hexabot, follow these steps:
 ```
 cd ~/projects/my-chatbot
 npm install hexabot-helper-gemini
-hexabot dev --services ollama
+hexabot dev
 ```
 
 Make sure you have the appropriate access credentials for the Gemini AI API.
