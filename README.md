@@ -2,7 +2,7 @@
 
 The **Hexabot Gemini Helper Extension** is a utility class designed to facilitate interaction with Google's Gemini AI API from other Hexabot extensions (such as plugins, channels, etc.). This helper allows developers to easily invoke the Gemini API and integrate advanced natural language understanding and response generation into Hexabot's chatbot builder.
 
-[Hexabot](https://hexabot.ai/) is an open-source chatbot/agent solution that allows users to create and manage AI-powered, multi-channel, and multilingual chatbots with ease. If you would like to learn more, please visit the [official GitHub repo](https://github.com/Hexastack/Hexabot/).
+Not yet familiar with [Hexabot](https://hexabot.ai/)? It's a open-source chatbot/agent solution that allows users to create and manage AI-powered, multi-channel, and multilingual chatbots with ease. If you would like to learn more, please visit the [official GitHub repo](https://github.com/Hexastack/Hexabot/).
 
 ## Features
 
@@ -24,7 +24,9 @@ Before setting up the Gemini Helper, you will need to generate an API token from
 To use the Gemini Helper Extension within Hexabot, follow these steps:
 
 ```
-npm install hexabot-helper-gemini --prefix ./api
+cd ~/projects/my-chatbot
+npm install hexabot-helper-gemini
+hexabot dev --services ollama
 ```
 
 Make sure you have the appropriate access credentials for the Gemini AI API.
