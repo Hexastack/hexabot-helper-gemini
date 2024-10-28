@@ -24,7 +24,9 @@ Before setting up the Gemini Helper, you will need to generate an API token from
 To use the Gemini Helper Extension within Hexabot, follow these steps:
 
 ```
-npm install hexabot-helper-gemini --prefix ./api
+cd ~/projects/my-chatbot
+npm install hexabot-helper-gemini
+hexabot dev
 ```
 
 Make sure you have the appropriate access credentials for the Gemini AI API.
