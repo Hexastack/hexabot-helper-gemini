@@ -6,13 +6,18 @@
  * 2. All derivative works must include clear attribution to the original creator and software, Hexastack and Hexabot, in a prominent location (e.g., in the software's "About" section, documentation, and README file).
  */
 
-import { Content, GoogleGenerativeAI } from '@google/generative-ai'; // Importing Google Generative AI
+import {
+  Content,
+  GoogleGenerativeAI,
+  ResponseSchema,
+} from '@google/generative-ai'; // Importing Google Generative AI
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 
 import { AnyMessage } from '@/chat/schemas/types/message';
 import { HelperService } from '@/helper/helper.service';
 import BaseLlmHelper from '@/helper/lib/base-llm-helper';
+import { LLM } from '@/helper/types';
 import { LoggerService } from '@/logger/logger.service';
 import { Setting } from '@/setting/schemas/setting.schema';
 import { SettingService } from '@/setting/services/setting.service';
@@ -79,15 +84,7 @@ export default class GeminiLlmHelper
     return Object.keys(obj).reduce(
       (acc, key) => {
         const camelCaseKey = this.toCamelCase(key);
-        if (camelCaseKey === 'responseSchema') {
-          try {
-            acc[camelCaseKey] = JSON.parse(obj[key]);
-          } catch (err) {
-            acc[camelCaseKey] = undefined;
-          }
-        } else {
-          acc[camelCaseKey] = obj[key];
-        }
+        acc[camelCaseKey] = obj[key];
         return acc;
       },
       {} as { [key: string]: any },
@@ -95,24 +92,28 @@ export default class GeminiLlmHelper
   }
 
   /**
-   * Generates a response using LLM
+   * Generates a response using Google Gemini
    *
    * @param prompt - The input text from the user
    * @param model - The model to be used
    * @param systemInstruction - The input text from the system
    * @param options - The API request options
    *
-   * @returns - The generated response from the LLM
+   * @returns - The generated response from Google Gemini
    */
   async generateResponse(
     prompt: string,
-    model?: string,
+    model: string,
     systemInstruction?: string,
     options: Partial<GeminiGenerationSettings> = {},
   ): Promise<string> {
-    const { token: _t, model: _m, ...globalOptions } = await this.getSettings();
+    const {
+      token: _t,
+      model: globalModel,
+      ...globalOptions
+    } = await this.getSettings();
     const genModel = this.client.getGenerativeModel({
-      model,
+      model: model || globalModel,
       systemInstruction,
       generationConfig: {
         /* 
@@ -125,11 +126,59 @@ export default class GeminiLlmHelper
           ...globalOptions,
           ...options,
         }),
+        responseMimeType: 'text/plain',
       },
     });
     const completion = await genModel.generateContent(prompt);
 
     return completion.response.text();
+  }
+
+  /**
+   * Generates a structured response using Google Gemini
+   *
+   * @param prompt - The input text from the user
+   * @param model - The model to be used
+   * @param systemInstruction - The input text from the system
+   * @param options - The API request options
+   *
+   * @returns - The generated response from Google Gemini
+   */
+  async generateStructuredResponse<T>(
+    prompt: string,
+    model: string,
+    systemInstruction: string,
+    schema: LLM.ResponseSchema,
+    options: Partial<GeminiGenerationSettings> = {},
+  ): Promise<T> {
+    const {
+      token: _t,
+      model: globalModel,
+      ...globalOptions
+    } = await this.getSettings();
+    const genModel = this.client.getGenerativeModel({
+      model: model || globalModel,
+      systemInstruction,
+      generationConfig: {
+        /* 
+          =====================================================================
+          Check the documentation for more details on the generation config 
+          https://ai.google.dev/api/generate-content#v1beta.GenerationConfig 
+          =====================================================================
+          */
+        ...this.buildGenerationConfig({
+          ...globalOptions,
+          ...options,
+        }),
+        // Force the model to be deterministic
+        temperature: 0,
+        responseMimeType: 'application/json',
+        responseSchema: schema as unknown as ResponseSchema,
+      },
+    });
+    const completion = await genModel.generateContent(prompt);
+
+    return JSON.parse(completion.response.text()) as T;
   }
 
   /**
