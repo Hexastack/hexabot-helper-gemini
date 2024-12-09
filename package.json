@@ -1,6 +1,6 @@
 {
   "name": "hexabot-helper-gemini",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "The Gemini Helper Extension for Hexabot Chatbot / Agent Builder to enable the LLM RAG Capability",
   "scripts": {
     "release:common": "git push origin --tags && npm publish",
