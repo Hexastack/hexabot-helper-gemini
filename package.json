@@ -3,10 +3,8 @@
   "version": "2.1.0",
   "description": "The Gemini Helper Extension for Hexabot Chatbot / Agent Builder to enable the LLM RAG Capability",
   "scripts": {
-    "release:common": "git push origin --tags && npm publish",
-    "release:patch": "npm version patch && npm run release:common",
-    "release:minor": "npm version minor && npm run release:common",
-    "release": "echo 'Please specify patch or minor: npm run release:patch or npm run release:minor'"
+    "release:patch": "npm version patch && git push origin main --tags",
+    "release:minor": "npm version minor && git push origin main --tags"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0"
