@@ -9,7 +9,7 @@ The **Hexabot Gemini Helper Extension** is a utility class designed to facilitat
 - **API Integration**: Seamlessly connect to Google's Gemini AI API, enabling other extensions within Hexabot to access Gemini's capabilities.
 - **Configurable Settings**: Configure parameters like model type, temperature, token count, penalties, and more for customized behavior.
 - **Easy Integration**: Use as a helper utility to invoke the Gemini API from any other extension within Hexabot.
-- **Flexible Options**: Supports various options such as response format, stop sequences, log probabilities, and more to customize the behavior of Gemini.
+- **Flexible Options**: Supports various options such as response format, log probabilities and more to customize the behavior of Gemini.
 
 ## Prerequisites
 
@@ -46,8 +46,6 @@ The extension provides configurable settings that can be adjusted to suit your n
 - **Max Output Tokens**: Sets the maximum number of tokens to include in a candidate response (default: `1000`).
 - **Top-K**: Changes how the model selects tokens for output. A topK of 1 means the selected token is the most probable among all the tokens in the model's vocabulary (greedy decoding), while a topK of 3 means that the next token is selected from among the 3 most probable using the temperature (default: `40`).
 - **Top-P**: Changes how the model selects tokens for output. Tokens are selected from the most to least probable until the sum of their probabilities equals the topP value (default: `0.95`).
-- **Stop Sequences**: Specifies the set of character sequences that will stop output generation. The stop sequence won't be included as part of the response.
-- **Response MIME Type**: Output response MIME type of the generated candidate text (`text/plain` or `application/json`).
 - **Presence Penalty**: Presence penalty applied to the next token's logprobs if the token has already been seen in the response (default: `0.0`).
 - **Frequency Penalty**: Frequency penalty applied to the next token's logprobs, multiplied by the number of times each token has been seen in the response so far (default: `0.0`).
 - **Response LogProbs**: If True, export the logprobs results in the response (default: `false`).
