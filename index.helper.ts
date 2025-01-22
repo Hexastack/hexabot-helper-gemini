@@ -244,7 +244,7 @@ export default class GeminiLlmHelper
   ) {
     const { token: _t, model: _m, ...globalOptions } = await this.getSettings();
     const genModel = this.client.getGenerativeModel({
-      model,
+      model: model || _m,
       systemInstruction,
       generationConfig: {
         /*
