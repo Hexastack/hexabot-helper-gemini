@@ -237,14 +237,14 @@ export default class GeminiLlmHelper
    */
   public async generateChatCompletion(
     prompt: string,
-    model: string,
+    model?: string,
     systemInstruction?: string,
     history: AnyMessage[] = [],
     options: Partial<GeminiGenerationSettings> = {},
   ) {
     const { token: _t, model: _m, ...globalOptions } = await this.getSettings();
     const genModel = this.client.getGenerativeModel({
-      model,
+      model: model || _m,
       systemInstruction,
       generationConfig: {
         /*
