@@ -103,7 +103,7 @@ console.log(response);
 ```typescript
 const response = await geminiHelper.generateResponse(
   'Where is Paris located?',
-  'gpt-4o-mini',
+  'gemini-1.5-flash',
   'You are a tourist assistant',
   {
     type: 'string',
