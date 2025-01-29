@@ -61,6 +61,16 @@ You can use the helper to generate responses from the model based on user input:
 const response = await geminiHelper.generateResponse(prompt, model, systemPrompt, options);
 console.log(response);
 ```
+##### Example 
+```typescript
+const response = await geminiHelper.generateResponse(
+  'Where is Paris located?',
+  'gemini-1.5-flash',
+  'You are a tourist assistant',
+  {...}
+);
+```
+
 #### Parameters:
   - **prompt:** The user input or query for which a response is generated.
   - **model:** Specifies the language model to be used (e.g., "gemini-1.5-flash").
@@ -88,6 +98,19 @@ console.log(response);
 ```typescript
 const response = await geminiHelper.generateStructuredResponse(prompt, model, systemPrompt, schema, options);
 console.log(response);
+```
+##### Example 
+```typescript
+const response = await geminiHelper.generateResponse(
+  'Where is Paris located?',
+  'gpt-4o-mini',
+  'You are a tourist assistant',
+  {
+    type: 'string',
+    description: 'Country of the input destination'
+  },
+  {...}
+);
 ```
 
 #### Parameters
