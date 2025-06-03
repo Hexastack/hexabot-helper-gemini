@@ -81,10 +81,17 @@ export default class GeminiLlmHelper
   private buildGenerationConfig(obj: GeminiGenerationSettings): {
     [key: string]: any;
   } {
-    return Object.keys(obj).reduce(
+    const { logprobs, response_logprobs, ...restObj } = obj;
+
+    return Object.keys({
+      ...restObj,
+      ...(typeof logprobs === 'number' &&
+        logprobs >= 0 &&
+        response_logprobs && { logprobs }),
+    }).reduce(
       (acc, key) => {
         const camelCaseKey = this.toCamelCase(key);
-        acc[camelCaseKey] = obj[key];
+        acc[camelCaseKey] = restObj[key];
         return acc;
       },
       {} as { [key: string]: any },
