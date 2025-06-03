@@ -78,20 +78,24 @@ export default class GeminiLlmHelper
    * @param obj - Object with snake_case keys.
    * @returns New object with camelCase keys.
    */
-  private buildGenerationConfig(obj: GeminiGenerationSettings): {
+  private buildGenerationConfig({
+    logprobs,
+    response_logprobs,
+    ...restObj
+  }: GeminiGenerationSettings): {
     [key: string]: any;
   } {
-    const { logprobs, response_logprobs, ...restObj } = obj;
-
-    return Object.keys({
+    const transformedOj = {
       ...restObj,
       ...(typeof logprobs === 'number' &&
         logprobs >= 0 &&
-        response_logprobs && { logprobs }),
-    }).reduce(
+        response_logprobs && { logprobs, response_logprobs }),
+    };
+
+    return Object.keys(transformedOj).reduce(
       (acc, key) => {
         const camelCaseKey = this.toCamelCase(key);
-        acc[camelCaseKey] = restObj[key];
+        acc[camelCaseKey] = transformedOj[key];
         return acc;
       },
       {} as { [key: string]: any },
