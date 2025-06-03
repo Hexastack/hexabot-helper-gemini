@@ -87,6 +87,6 @@ export default [
     group: GEMINI_HELPER_NAMESPACE,
     subgroup: 'options',
     type: SettingType.number,
-    value: null, // Default value (valid if response_logprobs is true, range between 0 and 20)
+    value: -1, // Default value (valid if response_logprobs is true, range between 0 and 5)
   },
 ] as const satisfies HelperSetting<typeof GEMINI_HELPER_NAME>[];
